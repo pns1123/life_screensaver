@@ -1,7 +1,7 @@
-#include <assert.h>
 #include<stdio.h>
 
-#include "src/life.c"
+#include "../src/life.c"
+#include "utils.c"
 
 #define H_LEN 4
 #define V_LEN 3
@@ -76,15 +76,15 @@ bool test_moore_sum_index11(){
 bool test_update_index7(){
 	bool next_gen_grid[H_LEN * V_LEN];
 	update_grid(GRID, next_gen_grid, H_LEN*V_LEN, H_LEN, V_LEN); 
-	print_grid(next_gen_grid, H_LEN, V_LEN);
+	//print_grid(next_gen_grid, H_LEN, V_LEN);
 	return ( next_gen_grid[7] == true );
 }
 
 int main(){
 
 	// display grid
-	printf("TESTGRID: \n");
-	print_grid(GRID, H_LEN, V_LEN);
+	// printf("TESTGRID: \n");
+	// print_grid(GRID, H_LEN, V_LEN);
 
 	bool (*tests[])() = { 
 		test_moore_sum_index0,
@@ -102,17 +102,19 @@ int main(){
 		test_update_index7,
 	};
 
-	printf("RUNNING %zu TESTS...\n", sizeof(tests)/sizeof(tests[0]));
+	set_purple();
+	set_bold();
+	printf("TESTING src/life.c: RUNNING %2zu TESTS...\n", sizeof(tests)/sizeof(tests[0]));
+	reset_printf();
 	for( size_t i=0; i<sizeof(tests)/sizeof(tests[0]); ++i){
-		assert(tests[i]());
-		printf("TEST %zu PASSED\n", i+1);
+		if ( tests[i]() ){
+			set_green();
+			printf("TEST %2zu PASSED\n", i+1);
+			reset_printf();
+		} else {
+			set_red();
+			printf("TEST %2zu FAILED\n", i+1);	
+			reset_printf();
+		}
 	}
-		
-    	size_t x_index, y_index;
-    	for(size_t grid_index=0; grid_index<H_LEN*V_LEN; ++grid_index){
-       		x_index = grid_index2x_index(grid_index, H_LEN, V_LEN);
-       		y_index = grid_index2y_index(grid_index, H_LEN, V_LEN);
-		printf("(%zu, %zu) \n", x_index, y_index);
-
-       }
 }

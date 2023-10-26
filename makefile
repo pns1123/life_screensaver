@@ -7,5 +7,8 @@ clean:
 deploy: 
 	cp life /usr/local/bin/life
 
-test: test.c src/
-	cc -o test test.c 
+test:
+	cc -o test_life tests/test_life.c
+	cc -o test_parser tests/test_parser.c
+	./test_life
+	./test_parser

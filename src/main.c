@@ -6,20 +6,25 @@
 
 #include "vroot.h"
 #include "life.c"
+#include "parser.c"
 
 //Display *dpy;
 //Window root;
 //GC g;
 
-void display_grid(bool *current_gen, size_t grid_len, 
-		  size_t nof_horizontal_boxes, size_t nof_vertical_boxes,
-		  size_t box_length,
+#define BOX_LENGTH 10
+#define NOF_HORIZONTAL_BOXES 192
+#define NOF_VERTICAL_BOXES 108
+
+void display_grid(bool *current_gen, unsigned int grid_len, 
+		  unsigned int nof_horizontal_boxes, unsigned int nof_vertical_boxes,
+		  unsigned int box_length,
 		  Display *dpy, Window root, GC g,
-		  size_t *x_coordinates,
-		  size_t *y_coordinates){
+		  unsigned int *x_coordinates,
+		  unsigned int *y_coordinates){
     /* draw a square */
-    size_t x_index, y_index;
-    for(size_t grid_index=0; grid_index<grid_len; ++grid_index){
+    unsigned int x_index, y_index;
+    for(unsigned int grid_index=0; grid_index<grid_len; ++grid_index){
        x_index = grid_index2x_index(grid_index, nof_horizontal_boxes, nof_vertical_boxes);
        y_index = grid_index2y_index(grid_index, nof_horizontal_boxes, nof_vertical_boxes);
 
@@ -49,22 +54,32 @@ int main(){
 	XSetForeground(dpy, g, WhitePixelOfScreen(DefaultScreenOfDisplay(dpy)) );
 	
 	/* translation: coordinates to life grid */
-	size_t box_length = 120 / 10;
-	size_t nof_vertical_boxes = (/*wa.height*/1080 / box_length);
-	size_t nof_horizontal_boxes = (/*wa.width*/ 1920 / box_length);
-	size_t nof_boxes = nof_horizontal_boxes * nof_vertical_boxes;
+	//unsigned int box_length = 10;
+	//unsigned int nof_vertical_boxes = (/*wa.height*/ 1080 / box_length);
+	//unsigned int nof_horizontal_boxes = (/*wa.width*/ 1920 / box_length);
+	//unsigned int nof_boxes = nof_horizontal_boxes * nof_vertical_boxes;
+	bool grid_A[NOF_HORIZONTAL_BOXES * NOF_VERTICAL_BOXES] = { false };
+
+	char *filename = "/home/philipp/.life_patterns/glider.rle";
+
+	struct GridSize pattern_size = parse_grid_size(filename);                 
+                                                                               
+	bool pattern_arr[pattern_size.vertical * pattern_size.horizontal];                               
+	parse_pattern(filename, pattern_arr, pattern_size.horizontal, pattern_size.vertical); 
+
+	initialize_grid(grid_A, NOF_HORIZONTAL_BOXES, NOF_VERTICAL_BOXES,
+	                pattern_arr, pattern_size.horizontal, pattern_size.vertical);
 	
-	size_t generation_counter = 0;
-	bool grid_A[nof_boxes];
-	initialize_grid_A(grid_A, nof_boxes);
+	unsigned int generation_counter = 0;
+	//initialize_grid_A(grid_A, nof_boxes);
 
-	bool grid_B[nof_boxes];
+	bool grid_B[NOF_HORIZONTAL_BOXES * NOF_VERTICAL_BOXES];
 
-	size_t x_coordinates[nof_horizontal_boxes];
-	size_t y_coordinates[nof_vertical_boxes];
+	unsigned int x_coordinates[NOF_HORIZONTAL_BOXES];
+	unsigned int y_coordinates[NOF_VERTICAL_BOXES];
 
-	initialize_coordinates(x_coordinates, nof_horizontal_boxes, wa.width);
-	initialize_coordinates(y_coordinates, nof_vertical_boxes, wa.height);
+	initialize_coordinates(x_coordinates, NOF_HORIZONTAL_BOXES, wa.width);
+	initialize_coordinates(y_coordinates, NOF_VERTICAL_BOXES, wa.height);
 
 	while (1){
 
@@ -73,8 +88,8 @@ int main(){
     
     
     
-    		display_grid(grid_A, nof_boxes, nof_horizontal_boxes, nof_vertical_boxes, box_length, dpy, root, g, x_coordinates, y_coordinates);
-		update_grid(grid_A, grid_B, nof_boxes, nof_horizontal_boxes, nof_vertical_boxes);
+    		display_grid(grid_A, NOF_HORIZONTAL_BOXES * NOF_VERTICAL_BOXES, NOF_HORIZONTAL_BOXES, NOF_VERTICAL_BOXES, BOX_LENGTH, dpy, root, g, x_coordinates, y_coordinates);
+		update_grid(grid_A, grid_B, NOF_HORIZONTAL_BOXES * NOF_VERTICAL_BOXES, NOF_HORIZONTAL_BOXES, NOF_VERTICAL_BOXES);
 
     		/* flush changes and sleep */
     		XFlush(dpy);
@@ -82,8 +97,8 @@ int main(){
     		XClearWindow(dpy, root);
     		++generation_counter;
 
-    		display_grid(grid_B, nof_boxes, nof_horizontal_boxes, nof_vertical_boxes, box_length, dpy, root, g, x_coordinates, y_coordinates);
-		update_grid(grid_B, grid_A, nof_boxes, nof_horizontal_boxes, nof_vertical_boxes);
+    		display_grid(grid_B, NOF_HORIZONTAL_BOXES * NOF_VERTICAL_BOXES, NOF_HORIZONTAL_BOXES, NOF_VERTICAL_BOXES, BOX_LENGTH, dpy, root, g, x_coordinates, y_coordinates);
+		update_grid(grid_B, grid_A, NOF_HORIZONTAL_BOXES * NOF_VERTICAL_BOXES, NOF_HORIZONTAL_BOXES, NOF_VERTICAL_BOXES);
 
     		/* flush changes and sleep */
     		XFlush(dpy);
