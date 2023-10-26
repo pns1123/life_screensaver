@@ -64,6 +64,37 @@ bool reference_arr11[3 * 3] = {false, true, false,
 			       true, true, true};
 TEST_CASE(test11, "tests/test_patterns/test11_glider.rle", 3, 3, reference_arr11)
 
+bool reference_arr12[5*5] = {false, false, false, false, false,
+			     false, false, true, false, false,
+                             false, false, false, true, false,
+                             false, true, true, true, false,
+                             false, false, false, false, false};
+
+bool test_initialization(){
+
+	unsigned int NOF_HORIZONTAL_BOXES = 5;
+	unsigned int NOF_VERTICAL_BOXES = 5;
+
+	bool grid[5 * 5] = { false };
+
+	char *filename = "/home/philipp/.life_patterns/glider.rle";
+
+	struct GridSize pattern_size = parse_grid_size(filename);                 
+                                                                               
+	bool pattern_arr[pattern_size.vertical * pattern_size.horizontal];                               
+	parse_pattern(filename, pattern_arr, pattern_size.horizontal, 
+		      pattern_size.vertical); 
+
+	initialize_grid(grid, NOF_HORIZONTAL_BOXES, NOF_VERTICAL_BOXES,
+	                pattern_arr, 
+			pattern_size.horizontal, pattern_size.vertical);
+
+	return bool_array_equal(reference_arr12, grid,                    
+			        NOF_HORIZONTAL_BOXES * NOF_VERTICAL_BOXES);    
+
+
+}
+
 int main() {
 
 	bool (*tests[])() = {test1, 
@@ -76,7 +107,9 @@ int main() {
 	                     test8,
 	                     test9,
 	                     test10,
-	                     test11};
+	                     test11,
+			     test_initialization};
+
 
 
 	set_purple();
