@@ -165,3 +165,25 @@ void parse_pattern(char *filename, bool grid[], unsigned int horizontal, unsigne
     //putchar('\n');
 }
 
+unsigned int top_left_index(unsigned int grid_horizontal, 
+		            unsigned int grid_vertical,
+			    unsigned int box_horizontal,
+			    unsigned int box_vertical){
+	assert(grid_horizontal >= box_horizontal);
+	assert(grid_vertical >= box_vertical);
+	unsigned int row = (grid_vertical - box_vertical) / 2;
+	unsigned int col = (grid_horizontal - box_horizontal) / 2;
+	return row * grid_horizontal + col;
+}
+
+
+void initialize_grid(bool *grid, unsigned int grid_horizontal, unsigned int grid_vertical,
+	             bool *pattern, unsigned int pattern_horizontal, unsigned int pattern_vertical){
+	unsigned int top_left = top_left_index(grid_horizontal, grid_vertical, pattern_horizontal, pattern_vertical);
+	for(unsigned int i=0; i<pattern_vertical; ++i){
+		for(unsigned int j=0; j<pattern_horizontal; ++j){
+			grid[top_left + i*grid_horizontal + j] = pattern[i * pattern_horizontal + j];
+		}
+	}
+}
+

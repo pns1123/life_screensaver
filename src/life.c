@@ -3,46 +3,6 @@
 #include<stdlib.h>
 #include<stdio.h>
 
-//#include<X11/Xlib.h>
-//#include "vroot.h"
-
-
-
-unsigned int top_left_index(unsigned int grid_horizontal, 
-		            unsigned int grid_vertical,
-			    unsigned int box_horizontal,
-			    unsigned int box_vertical){
-	assert(grid_horizontal >= box_horizontal);
-	assert(grid_vertical >= box_vertical);
-	unsigned int row = (grid_vertical - box_vertical) / 2;
-	unsigned int col = (grid_horizontal - box_horizontal) / 2;
-	return row * grid_horizontal + col;
-}
-
-
-void initialize_grid(bool *grid, unsigned int grid_horizontal, unsigned int grid_vertical,
-	             bool *pattern, unsigned int pattern_horizontal, unsigned int pattern_vertical){
-	unsigned int top_left = top_left_index(grid_horizontal, grid_vertical, pattern_horizontal, pattern_vertical);
-	for(unsigned int i=0; i<pattern_vertical; ++i){
-		for(unsigned int j=0; j<pattern_horizontal; ++j){
-			grid[top_left + i*grid_horizontal + j] = pattern[i * pattern_horizontal + j];
-		}
-	}
-}
-
-
-
-void initialize_grid_A(bool *grid, unsigned int grid_size){
-        for(unsigned int i=0; i<grid_size; ++i){
-      	  grid[i] = false;
-        }
-	// TODO set bounding box
-	// TODO place parsed pattern in bounding box
-        grid[241] = true;
-        grid[242] = true;
-        grid[243] = true;
-}
-
 
 void initialize_coordinates(unsigned int *arr, unsigned int nof_boxes, unsigned int nof_pixels){
         unsigned int offset = nof_pixels / nof_boxes;
