@@ -88,6 +88,7 @@ void update_grid(bool *current_gen, bool *next_gen, unsigned int grid_len, unsig
        } else {
           switch(neighboor_count){
       	    // fewer than 2 live neighboors => cell dies
+      	    case 0: next_gen[grid_index] = false; break;
       	    case 1: next_gen[grid_index] = false; break;
       	    // 2 or 3 live neighboors => cell continues to live
       	    case 2: next_gen[grid_index] = true; break;
@@ -98,7 +99,6 @@ void update_grid(bool *current_gen, bool *next_gen, unsigned int grid_len, unsig
       	    case 6: next_gen[grid_index] = false; break;
       	    case 7: next_gen[grid_index] = false; break;
       	    case 8: next_gen[grid_index] = false; break;
-      	    case 9: next_gen[grid_index] = false; break;
           }
 	  //printf("(%zu TRUE %d, %d) \n", grid_index, neighboor_count, next_gen[grid_index]);
 
