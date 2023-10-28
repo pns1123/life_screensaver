@@ -95,14 +95,12 @@ void parse_pattern(char *filename, bool grid[], unsigned int horizontal, unsigne
 	} 
 	else if (c == '$' || c == '!'){
 		if (col_index < horizontal){
-			last_literal = grid[grid_pos(row_index, col_index, horizontal)-1];
-
 			//printf("write %c from pos. %d to %d\n", 
 			//       literal2flag(last_literal),
 			//       grid_pos(row_index, col_index, horizontal), 
 			//       grid_pos(row_index, col_index, horizontal) + horizontal-col_index);
 			write_k(&grid[grid_pos(row_index, col_index, horizontal)],
-			        literal2flag(last_literal), 
+			        false, 
 				horizontal- col_index );
 		}
 		col_index = 0;
