@@ -37,26 +37,26 @@ TEST_CASE(test4, "tests/test_patterns/test4.rle", 5, 1, reference_arr4)
 bool reference_arr5[5 * 1] = {false, false, false, false, false};
 TEST_CASE(test5, "tests/test_patterns/test5.rle", 5, 1, reference_arr5)
 
-bool reference_arr6[5 * 1] = {false, true, true, true, true};
+bool reference_arr6[5 * 1] = {false, true, false, false, false};
 TEST_CASE(test6, "tests/test_patterns/test6.rle", 5, 1, reference_arr6)
 
-bool reference_arr7[5 * 1] = {true, true, true, true, true};
+bool reference_arr7[5 * 1] = {true, false, false, false, false};
 TEST_CASE(test7, "tests/test_patterns/test7.rle", 5, 1, reference_arr7)
 
 bool reference_arr8[5 * 2] = {false, false, false, false, false, 
-	                      true, true, true, true, true};
+	                      true, false, false, false, false};
 TEST_CASE(test8, "tests/test_patterns/test8.rle", 5, 2, reference_arr8)
 
 bool reference_arr9[2 * 4] = {false, true, 
-	                      true, true, 
+	                      true, false, 
 			      true, false, 
 			      false, false};
 TEST_CASE(test9, "tests/test_patterns/test9.rle", 2, 4, reference_arr9)
 
-bool reference_arr10[4 * 4] = {true, true, true, true, 
-	                      false, true, true, true, 
-                              false, false, true, true, 
-                              false, false, false, true};
+bool reference_arr10[4 * 4] = {true, false, false, false,
+	                       false, true, false, false, 
+                               false, false, true, false, 
+                               false, false, false, true};
 TEST_CASE(test10, "tests/test_patterns/test10.rle", 4, 4, reference_arr10)
 
 bool reference_arr11[3 * 3] = {false, true, false,
