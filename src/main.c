@@ -73,6 +73,8 @@ int main(){
 	initialize_coordinates(x_coordinates, NOF_HORIZONTAL_BOXES, wa.width);
 	initialize_coordinates(y_coordinates, NOF_VERTICAL_BOXES, wa.height);
 
+	unsigned int sleep_time = 100000;
+
 	while (1){
 
     		display_grid(grid_A, NOF_HORIZONTAL_BOXES * NOF_VERTICAL_BOXES, NOF_HORIZONTAL_BOXES, NOF_VERTICAL_BOXES, BOX_LENGTH, dpy, root, g, x_coordinates, y_coordinates);
@@ -80,7 +82,7 @@ int main(){
 
     		/* flush changes and sleep */
     		XFlush(dpy);
-    		usleep (1000000);
+    		usleep (sleep_time);
     		XClearWindow(dpy, root);
     		++generation_counter;
 
@@ -89,7 +91,7 @@ int main(){
 
     		/* flush changes and sleep */
     		XFlush(dpy);
-    		usleep (1000000);
+    		usleep (sleep_time);
     		XClearWindow(dpy, root);
     		++generation_counter;
   	}
