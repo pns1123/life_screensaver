@@ -5,6 +5,7 @@ clean:
 	rm build/*
 
 deploy: 
+	cc -o build/life src/main.c -L/usr/lib -lX11
 	cp build/life /usr/local/bin/life
 
 test:
